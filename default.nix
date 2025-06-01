@@ -40,14 +40,14 @@
             vim-lightline
           ];
           settings = {
-            shiftwidth = 2;
             expandtab = true;
-            tabstop = 2;
             number = true;
             relativenumber = true;
+            shiftwidth = 2;
+            tabstop = 2;
           };
           extraConfig = ''
-                      let mapleader = " "
+                      let mapleader = ","
                       " plugins
                       " ale
                       let g:ale_rust_cargo_default_feature_behaviour = 'all'
@@ -127,6 +127,16 @@
                       map ; :Files<CR>
                       set rtp+=${pkgs.fzf}/share/vim-plugins/fzf
 
+                      " opts
+                      " Indentation
+                      set autoindent
+
+                      " Automatically change dirs when visiting files
+                      set autochdir
+
+                      " Enable normal backspace behaviour
+                      set backspace=2
+
                       set nocompatible
                       " we don't need this with lightline
                       set noshowmode
@@ -134,14 +144,8 @@
                       " Show columnnumbers
                       set ruler
 
-                      " Enable normal backspace behaviour
-                      set backspace=2
-
                       " Enable syntax highlighting
                       syntax on
-
-                      " Indentation
-                      set autoindent
 
                       " Set formatting of text and comments
                       set formatoptions=tn1
