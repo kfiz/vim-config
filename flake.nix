@@ -34,17 +34,25 @@
   outputs =
     inputs:
     with inputs;
-    flake-parts.lib.mkFlake { inherit inputs; } {
-      systems = import systems;
-      imports = [
-        inputs.home-manager.flakeModules.home-manager
-        inputs.treefmt-nix.flakeModule
-      ];
-      flake = {
-        homeModules.default = { pkgs, ... }: import ./default.nix { inherit pkgs inputs; };
-      };
-      perSystem = {
-        treefmt.programs.nixfmt.enable = true;
-      };
-    };
+    flake-parts.lib.mkFlake { inherit inputs; } (
+      let
+        plugins = import ./config/plugins { inherit inputs; };
+      in
+      {
+        systems = import systems;
+        imports = [
+          inputs.home-manager.flakeModules.home-manager
+          inputs.treefmt-nix.flakeModule
+        ];
+        flake = {
+          homeModules.default =
+            { config, pkgs, ... }: import ./config/home-manager/default.nix { inherit config pkgs plugins; };
+          nixosModules.default =
+            { config, pkgs, ... }: import ./config/nixos/default.nix { inherit config pkgs plugins; };
+        };
+        perSystem = {
+          treefmt.programs.nixfmt.enable = true;
+        };
+      }
+    );
 }
