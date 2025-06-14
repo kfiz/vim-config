@@ -42,6 +42,7 @@
       ];
       flake = {
         homeModules.default = { pkgs, ... }: import ./default.nix { inherit pkgs inputs; };
+        nixosModules.default = { pkgs, ... }: import ./default.nix { inherit pkgs inputs; };
       };
       perSystem = {
         treefmt.programs.nixfmt.enable = true;
